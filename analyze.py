@@ -9,22 +9,24 @@ import matplotlib.pyplot as plt
 df = pd.read_csv("data/bot_scores.csv")
 
 # Add a column to indicate the winning bot in each game
-df['is_winner'] = df.groupby('GameIndex')['Score'].transform(max) == df['Score']
+# df['is_winner'] = df.groupby('Game')['Score'].transform(max) == df['Score']
 
 # Calculate win rate per bot type
 # THIS IS WRONG -- DIVIDE BY NUMBER OF GAMES THAT BOT PARTICIPATED IN
-# win_rates = df[df['is_winner']].groupby('BotType')['is_winner'].count() / df['GameIndex'].nunique()
+# win_rates = df[df['is_winner']].groupby('BotType')['is_winner'].count() / df['Game'].nunique()
 
 
 # Calculate the number of games each bot type participated in
-games_played = df.groupby('BotType')['GameIndex'].nunique()
+# games_played = df.groupby('BotType')['Game'].nunique()
 
 # Calculate the number of games each bot type won
-wins = df[df['is_winner']].groupby('BotType')['is_winner'].count()
+# wins = df[df['is_winner']].groupby('BotType')['is_winner'].count()
 
 # Calculate the win rate for each bot type
-win_rates = wins / games_played
+# win_rates = wins / games_played
 
+# Calculate win rate per bot type
+win_rates = df.groupby('BotType')['Place'].apply(lambda x: (x == 1).sum() / x.count())
 
 # Calculate average score per bot type
 avg_scores = df.groupby('BotType')['Score'].mean()
