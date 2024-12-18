@@ -20,9 +20,9 @@ class Game:
 
     def calculateRoundScore(self, count, dupes, roundScore, rollCount):
         if rollCount < 3:
-            return False, roundScore + 70 if count == 7 else count
+            return False, roundScore + 70 if count == 7 else roundScore + count
         if count == 7: return True, 0
-        return False, roundScore * 2 if dupes else roundScore
+        return False, roundScore * 2 if dupes else roundScore + count
         
     def playRound(self):
         for player in self.players:
@@ -41,18 +41,27 @@ class Game:
             d1, d2 = random.randint(1, 6), random.randint(1, 6)
             dupes = d1 == d2
             count = d1 + d2
+
+            ## BAD LINE REMOVE ME AFTER TESTING
+            # tempRoundScore = roundScore
+
+            rolledEnd, roundScore = self.calculateRoundScore(count, dupes, roundScore, rollCount)
+
             if not self.quiet:
                 print(f"{self.players[self.playerTurn].name}'s turn")
                 print(f"Rolled {count} {'(doubles)' if dupes else ''}")
                 print("Current score:", roundScore)
             rollCount += 1 
 
-            rolledEnd, roundScore = self.calculateRoundScore(count, dupes, roundScore, rollCount)
-
             self.updatePlayerTurn()
             if rolledEnd:
                 for playerIndex in self.unbankedPlayers:
                     self.players[playerIndex].roundScores.append(0)
+
+                    # THESE LINES IS FOR TESTING ONLY -- REMOVE LATER AND USE THE ABOVE
+                    # self.players[playerIndex].roundScores.append(tempRoundScore)
+                    # self.players[playerIndex].score += tempRoundScore
+
                 self.currentRound += 1
                 return
 

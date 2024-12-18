@@ -20,8 +20,11 @@ pcts = [.2, .3, .15, .25]
 pcts2 = [.25, .5, .75]
 
 def simulateGame(num_players, num_rounds):
-    players = [Player("DumbBot", DumbBot(bankThreshold=random.choice(pcts)), quiet=True) for _ in range(num_players - 2)]
-    players.extend([Player("MedianBot", MedianBot(bankThreshold=random.choice(pcts), playerThreshold=random.choice(pcts2)), quiet=True) for _ in range(2)])
+    # players = [Player("DumbBot", DumbBot(bankThreshold=random.choice(pcts)), quiet=True) for _ in range(num_players - 2)]
+    # players.extend([Player("MedianBot", MedianBot(bankThreshold=random.choice(pcts), playerThreshold=random.choice(pcts2)), quiet=True) for _ in range(2)])
+
+    # -1 will never bank -- this is just for testing avg score per round
+    players = [Player("DumbBot", DumbBot(bankThreshold=-1), quiet=True)]
 
     game = Game(players, num_rounds, quiet=True)
     return gameLoop(game)

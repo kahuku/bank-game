@@ -1,6 +1,5 @@
 import argparse
 import random
-import sys
 
 from Player import Player
 from Game import Game
