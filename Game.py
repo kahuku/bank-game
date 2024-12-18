@@ -51,6 +51,8 @@ class Game:
 
             self.updatePlayerTurn()
             if rolledEnd:
+                for playerIndex in self.unbankedPlayers:
+                    self.players[playerIndex].roundScores.append(0)
                 self.currentRound += 1
                 return
 

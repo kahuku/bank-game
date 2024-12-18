@@ -18,11 +18,8 @@ def gameLoop(game):
 
     endGameOutput = []
     for player in game.players:
-        endGameOutput.append((
-            player.name,
-            player.brain,
-            player.score
-        ))
+        line = [player.name, player.brain, player.score, player.roundScores]
+        endGameOutput.append(line)
     return endGameOutput
 
 def initPlayers(n, quiet):

@@ -79,18 +79,25 @@ def runSimulations(total_games, num_players, num_rounds, output_file, threads):
 
     # Save results to a CSV file
     with open(output_file, mode='w', newline='') as csv_file:
-        fieldnames = ['Game', 'PlayerName', 'BotType', 'Score']
+        fieldnames = ['Game', 'PlayerName', 'BotType', 'Place', 'Score']
+        fieldnames.extend([f"Round {i + 1} Score" for i in range(num_rounds)])
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
         writer.writeheader()
         for game_index, scores in enumerate(allResults):
-            for name, bot_type, score in scores:
-                writer.writerow({
+            scores.sort(key=lambda x: x[2], reverse=True)
+            k = 1
+            for name, bot_type, score, roundScores in scores:
+                row = {
                     'Game': game_index + 1,
                     'PlayerName': name,
-                    'BotType': bot_type,
+                    'BotType': bot_type.__str__(),
+                    'Place': k,
                     'Score': score
-                })
+                }
+                row.update({f"Round {j + 1} Score": s for j, s in enumerate(roundScores)})
+                writer.writerow(row)
+                k += 1
     print(f"Log time: {time.time() - logTime:.2f} seconds")
 
 if __name__ == "__main__":

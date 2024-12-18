@@ -5,6 +5,7 @@ class Player:
         self.banked = False
         self.brain = brain
         self.quiet = quiet
+        self.roundScores = []
 
     def __str__(self):
         return f"{self.name} {'(' + self.brain.__str__() + ')' if self.brain else ''} has {self.score} points"
@@ -21,6 +22,7 @@ class Player:
         self.banked = bank
         if bank:
             self.score += roundScore
+            self.roundScores.append(roundScore)
             if not self.quiet:
                 print(f"{self.name} banked {roundScore} points")
         
