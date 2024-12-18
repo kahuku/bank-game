@@ -1,10 +1,9 @@
-from Dice import Dice
+import random
 
 class Game:
     def __init__(self, players, rounds, quiet=False):
         self.quiet = quiet
 
-        self.dice = Dice(numDice=2, numSides=6)
         self.currentRound = 1
 
         self.players = players
@@ -39,7 +38,9 @@ class Game:
         rollCount = 0
         roundScore = 0
         while True:
-            count, dupes = self.dice.roll()
+            d1, d2 = random.randint(1, 6), random.randint(1, 6)
+            dupes = d1 == d2
+            count = d1 + d2
             if not self.quiet:
                 print(f"{self.players[self.playerTurn].name}'s turn")
                 print(f"Rolled {count} {'(doubles)' if dupes else ''}")
@@ -85,14 +86,3 @@ class Game:
         winner = max(self.players, key=lambda x: x.score)
         if not self.quiet:
             print(f"{winner.name} wins with {winner.score} points!")
-
-    # def bankOpportunity(self, roundScore):
-    #     banking = input("Is anyone banking? (y/n)")
-    #     if banking.lower() == "y":
-    #         for player in self.players:
-    #             if not player.banked:
-    #                 bank = input(f"{player.name}, are you banking? (y/n)")
-    #                 if bank.lower() == "y":
-    #                     player.banked = True
-    #                     player.score += roundScore
-    #                     print(f"{player.name} banked {roundScore} points")

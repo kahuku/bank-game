@@ -79,14 +79,14 @@ def runSimulations(total_games, num_players, num_rounds, output_file, threads):
 
     # Save results to a CSV file
     with open(output_file, mode='w', newline='') as csv_file:
-        fieldnames = ['GameIndex', 'PlayerName', 'BotType', 'Score']
+        fieldnames = ['Game', 'PlayerName', 'BotType', 'Score']
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
         writer.writeheader()
         for game_index, scores in enumerate(allResults):
             for name, bot_type, score in scores:
                 writer.writerow({
-                    'GameIndex': game_index + 1,
+                    'Game': game_index + 1,
                     'PlayerName': name,
                     'BotType': bot_type,
                     'Score': score
